@@ -35,7 +35,23 @@
 .
 ├─ apps/
 │  └─ web/                  # React + Vite 前端
+│     └─ src/
+│        ├─ components/
+│        ├─ contexts/
+│        ├─ hooks/
+│        ├─ layouts/
+│        ├─ pages/
+│        ├─ service/
+│        └─ styles/
 ├─ backend/                 # FastAPI 后端
+│  └─ app/
+│     ├─ api/
+│     ├─ core/
+│     ├─ db/
+│     ├─ integrations/
+│     ├─ modules/
+│     ├─ scripts/
+│     └─ workers/
 ├─ libs/
 │  └─ template-meta/        # 模板共享元信息
 ├─ scripts/
@@ -48,6 +64,37 @@
 ├─ docker-compose.dev.yml   # 开发态 Compose
 └─ README.md
 ```
+
+## 结构约定
+
+这个模板会保留原项目的分层形式，但用中性的 example 文件表达职责。
+
+前端当前已经体现这些层级：
+
+- `components/app`
+- `components/example`
+- `components/ui`
+- `contexts`
+- `hooks`
+- `layouts`
+- `pages`
+- `service/core`
+- `service/modules`
+- `styles`
+
+后端当前已经体现这些层级：
+
+- `api`
+- `core`
+- `db`
+- `db/models`
+- `integrations`
+- `modules/example`
+- `modules/health`
+- `scripts`
+- `workers`
+
+这些 example 文件是可运行的，不是空壳；但它们只表达结构，不表达具体业务域。
 
 ## 环境要求
 
