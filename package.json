@@ -10,7 +10,7 @@
     "test:web": "pnpm --filter @aged-template/web test",
     "test:backend": "cd backend && uv run pytest",
     "build:web": "pnpm --filter @aged-template/web build",
-    "db:migrate": "cd backend && uv run migrate",
+    "db:migrate": "cd backend && uv run python -m app.scripts.migrate",
     "infra:up": "docker compose up -d postgres redis",
     "infra:down": "docker compose stop postgres redis",
     "docker:up": "docker compose up --build",
