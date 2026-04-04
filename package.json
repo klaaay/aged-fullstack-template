@@ -1,0 +1,22 @@
+{
+  "name": "aged-fullstack-template",
+  "private": true,
+  "packageManager": "pnpm@10.17.1",
+  "scripts": {
+    "dev": "./scripts/dev.sh",
+    "dev:api": "./scripts/start-backend-py.sh",
+    "dev:web": "pnpm --filter @aged-template/web dev",
+    "test": "pnpm --filter @aged-template/web test && cd backend && uv run pytest",
+    "test:web": "pnpm --filter @aged-template/web test",
+    "test:backend": "cd backend && uv run pytest",
+    "build:web": "pnpm --filter @aged-template/web build",
+    "db:migrate": "cd backend && uv run migrate",
+    "infra:up": "docker compose up -d postgres redis",
+    "infra:down": "docker compose stop postgres redis",
+    "docker:up": "docker compose up --build",
+    "docker:up:dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
+    "docker:down": "docker compose down",
+    "docker:down:dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml down",
+    "init:project": "node ./scripts/init-project.mjs"
+  }
+}
