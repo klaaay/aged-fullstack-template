@@ -47,3 +47,9 @@ pnpm dev
 ```bash
 pnpm test
 ```
+
+## CI/CD
+
+- GitHub Actions：`.github/workflows/ci.yml`、`.github/workflows/release.yml`
+- GitLab CI：`.gitlab-ci.yml`
+- 两套流水线共用 `scripts/ci/*`，派生项目时会由 `init:project` 一起改名

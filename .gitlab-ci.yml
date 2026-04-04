@@ -1,0 +1,68 @@
+stages:
+  - test
+  - build
+  - release
+
+default:
+  image: python:3.12
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends curl ca-certificates git docker.io ruby-full
+    - curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+    - apt-get install -y --no-install-recommends nodejs
+    - corepack enable
+    - npm install -g pnpm@10.17.1
+    - python -m pip install uv
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - when: never
+
+web:
+  stage: test
+  script:
+    - ./scripts/ci/setup-node.sh
+    - ./scripts/ci/check-web.sh
+  artifacts:
+    when: always
+    paths:
+      - apps/web/dist
+
+backend:
+  stage: test
+  script:
+    - ./scripts/ci/setup-node.sh
+    - ./scripts/ci/setup-python.sh
+    - ./scripts/ci/check-backend.sh
+
+docker:
+  stage: build
+  image: docker:27
+  services:
+    - docker:27-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ''
+  before_script: []
+  script:
+    - apk add --no-cache bash docker-cli docker-cli-compose git ruby
+    - ./scripts/ci/check-docker.sh
+
+release:
+  stage: release
+  image: docker:27
+  services:
+    - docker:27-dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ''
+    ENABLE_IMAGE_PUBLISH: 'false'
+    IMAGE_NAMESPACE: aged-fullstack-template
+  before_script: []
+  script:
+    - apk add --no-cache bash docker-cli git
+    - ./scripts/ci/publish-images.sh
+  when: manual
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'

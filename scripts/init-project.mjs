@@ -51,6 +51,7 @@ const targetFiles = [
   'pnpm-lock.yaml',
   '.env.example',
   'README.md',
+  '.gitlab-ci.yml',
   '.github/workflows/release.yml',
   'docker-compose.yml',
   'docker-compose.dev.yml',
