@@ -1,0 +1,41 @@
+name: Release Images
+
+on:
+  workflow_dispatch:
+    inputs:
+      enable_publish:
+        description: Set true to actually push images
+        required: false
+        default: 'false'
+      image_registry:
+        description: Registry host
+        required: false
+        default: ''
+      image_namespace:
+        description: Registry namespace
+        required: false
+        default: aged-fullstack-template
+      image_tag:
+        description: Image tag
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Publish images
+        env:
+          ENABLE_IMAGE_PUBLISH: ${{ inputs.enable_publish }}
+          IMAGE_REGISTRY: ${{ inputs.image_registry }}
+          IMAGE_NAMESPACE: ${{ inputs.image_namespace }}
+          IMAGE_TAG: ${{ inputs.image_tag }}
+          REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+          REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+        run: ./scripts/ci/publish-images.sh

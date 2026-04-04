@@ -51,6 +51,7 @@ const targetFiles = [
   'pnpm-lock.yaml',
   '.env.example',
   'README.md',
+  '.github/workflows/release.yml',
   'docker-compose.yml',
   'docker-compose.dev.yml',
   'apps/web/package.json',
@@ -65,6 +66,9 @@ const targetFiles = [
   'backend/tests/contracts/test_health.py',
   'libs/template-meta/package.json',
   'libs/template-meta/src/index.ts',
+  'scripts/ci/check-docker.sh',
+  'scripts/ci/build-images.sh',
+  'scripts/ci/publish-images.sh',
   'scripts/start-web.sh',
   'scripts/init-project.mjs'
 ]
