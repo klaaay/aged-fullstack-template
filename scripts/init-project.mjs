@@ -60,6 +60,7 @@ const targetFiles = [
   'apps/web/Dockerfile',
   'apps/web/src/App.tsx',
   'apps/web/src/App.test.tsx',
+  'apps/web/src/lib/env.ts',
   'apps/web/vite.config.ts',
   'backend/pyproject.toml',
   'backend/uv.lock',
@@ -89,18 +90,36 @@ for (const file of targetFiles) {
 
   if (file === '.env.example') {
     content = content
-      .replace('WEB_PORT=5173', `WEB_PORT=${webPort}`)
-      .replace('API_PORT=3000', `API_PORT=${apiPort}`)
-      .replace('POSTGRES_PORT=5432', `POSTGRES_PORT=${postgresPort}`)
-      .replace('REDIS_PORT=6379', `REDIS_PORT=${redisPort}`)
+      .replace(/^WEB_PORT=.*$/m, `WEB_PORT=${webPort}`)
+      .replace(/^API_PORT=.*$/m, `API_PORT=${apiPort}`)
+      .replace(/^POSTGRES_PORT=.*$/m, `POSTGRES_PORT=${postgresPort}`)
+      .replace(/^REDIS_PORT=.*$/m, `REDIS_PORT=${redisPort}`)
       .replace(
-        'DATABASE_URL=postgresql+psycopg://postgres:postgres@127.0.0.1:5432/aged_fullstack_template',
+        /^DATABASE_URL=.*$/m,
         `DATABASE_URL=postgresql+psycopg://postgres:postgres@127.0.0.1:${postgresPort}/${projectDbName}`
       )
+      .replace(/^REDIS_URL=.*$/m, `REDIS_URL=redis://127.0.0.1:${redisPort}/0`)
       .replace(
-        'REDIS_URL=redis://127.0.0.1:6379/0',
-        `REDIS_URL=redis://127.0.0.1:${redisPort}/0`
+        /^VITE_API_BASE_URL=.*$/m,
+        `VITE_API_BASE_URL=http://127.0.0.1:${apiPort}/api`
       )
+  }
+
+  if (file === 'backend/app/core/config.py') {
+    content = content
+      .replace(/api_port: int = \d+/m, `api_port: int = ${apiPort}`)
+      .replace(
+        /database_url: str = \(\n\s+"postgresql\+psycopg:\/\/postgres:postgres@127\.0\.0\.1:\d+\/[a-z0-9_]+"\n\s+\)/m,
+        `database_url: str = (\n        "postgresql+psycopg://postgres:postgres@127.0.0.1:${postgresPort}/${projectDbName}"\n    )`
+      )
+      .replace(/redis_url: str = "redis:\/\/127\.0\.0\.1:\d+\/0"/m, `redis_url: str = "redis://127.0.0.1:${redisPort}/0"`)
+  }
+
+  if (file === 'apps/web/src/lib/env.ts') {
+    content = content.replace(
+      /http:\/\/127\.0\.0\.1:\d+\/api/m,
+      `http://127.0.0.1:${apiPort}/api`
+    )
   }
 
   fs.writeFileSync(filePath, content)

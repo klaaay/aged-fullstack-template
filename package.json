@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "./scripts/dev.sh",
     "dev:api": "./scripts/start-backend-py.sh",
-    "dev:web": "pnpm --filter @aged-template/web dev",
+    "dev:web": "./scripts/start-web.sh",
     "test": "pnpm --filter @aged-template/web test && cd backend && uv run pytest",
     "test:web": "pnpm --filter @aged-template/web test",
     "test:backend": "cd backend && uv run pytest",
