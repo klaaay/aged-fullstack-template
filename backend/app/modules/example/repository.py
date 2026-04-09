@@ -1,4 +1,4 @@
-from app.db.models.example import ExampleRecord
+from app.modules.example.models import ExampleRecord
 
 
 def list_example_records() -> list[ExampleRecord]:

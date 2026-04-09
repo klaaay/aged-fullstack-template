@@ -1,5 +1,10 @@
-import subprocess
+from alembic import command
+from alembic.config import Config
+
+from app.platform.config.settings import settings
 
 
 def main() -> None:
-    subprocess.run(["alembic", "upgrade", "head"], check=True)
+    config = Config("alembic.ini")
+    config.set_main_option("sqlalchemy.url", settings.database_url)
+    command.upgrade(config, "head")

@@ -1,4 +1,4 @@
-from app.core.config import settings
+from app.platform.config.settings import settings
 
 
 def get_health_payload() -> dict[str, str]:

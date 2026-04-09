@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from app.core.config import Settings
+from app.platform.config.settings import Settings
 
 
 def test_settings_load_env_file_values(tmp_path: Path) -> None:

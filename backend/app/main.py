@@ -1,13 +1,9 @@
 import uvicorn
-from fastapi import FastAPI
 
-from app.api.router import router as api_router
-from app.core.config import settings
-from app.core.errors import install_error_handlers
+from app.bootstrap.app import create_app
+from app.platform.config.settings import settings
 
-app = FastAPI(title=settings.project_name)
-install_error_handlers(app)
-app.include_router(api_router)
+app = create_app()
 
 
 def run_dev() -> None:

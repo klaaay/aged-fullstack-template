@@ -45,13 +45,11 @@
 │        └─ styles/
 ├─ backend/                 # FastAPI 后端
 │  └─ app/
-│     ├─ api/
-│     ├─ core/
-│     ├─ db/
-│     ├─ integrations/
+│     ├─ bootstrap/
 │     ├─ modules/
+│     ├─ platform/
 │     ├─ scripts/
-│     └─ workers/
+│     └─ shared/
 ├─ libs/
 │  └─ template-meta/        # 模板共享元信息
 ├─ scripts/
@@ -84,15 +82,22 @@
 
 后端当前已经体现这些层级：
 
-- `api`
-- `core`
-- `db`
-- `db/models`
-- `integrations`
+- `bootstrap`
 - `modules/example`
 - `modules/health`
+- `platform/config`
+- `platform/db`
+- `platform/integrations`
 - `scripts`
-- `workers`
+- `shared/errors`
+- `shared/http`
+
+其中：
+
+- `bootstrap` 负责应用装配
+- `platform` 负责运行时基础设施
+- `shared` 仅保留轻量公共代码
+- `modules/*` 负责业务模块实现
 
 这些 example 文件是可运行的，不是空壳；但它们只表达结构，不表达具体业务域。
 
