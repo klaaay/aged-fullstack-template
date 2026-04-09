@@ -55,13 +55,13 @@ const targetFiles = [
   '.github/workflows/release.yml',
   'docker-compose.yml',
   'docker-compose.dev.yml',
-  'apps/web/package.json',
-  'apps/web/index.html',
-  'apps/web/Dockerfile',
-  'apps/web/src/App.tsx',
-  'apps/web/src/App.test.tsx',
-  'apps/web/src/lib/env.ts',
-  'apps/web/vite.config.ts',
+  'frontend/package.json',
+  'frontend/index.html',
+  'frontend/Dockerfile',
+  'frontend/src/App.tsx',
+  'frontend/src/App.test.tsx',
+  'frontend/src/lib/env.ts',
+  'frontend/vite.config.ts',
   'backend/pyproject.toml',
   'backend/uv.lock',
   'backend/app/core/config.py',
@@ -115,7 +115,7 @@ for (const file of targetFiles) {
       .replace(/redis_url: str = "redis:\/\/127\.0\.0\.1:\d+\/0"/m, `redis_url: str = "redis://127.0.0.1:${redisPort}/0"`)
   }
 
-  if (file === 'apps/web/src/lib/env.ts') {
+  if (file === 'frontend/src/lib/env.ts') {
     content = content.replace(
       /http:\/\/127\.0\.0\.1:\d+\/api/m,
       `http://127.0.0.1:${apiPort}/api`

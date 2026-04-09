@@ -5,7 +5,7 @@ WORKDIR /workspace
 RUN corepack enable
 
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
-COPY apps/web apps/web
+COPY frontend frontend
 COPY libs/template-meta libs/template-meta
 
 RUN pnpm install --filter @aged-template/web...

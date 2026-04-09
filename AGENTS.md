@@ -2,7 +2,7 @@
 
 ## Project Structure
 
-This repository contains a Vite web app in `apps/web` and a FastAPI backend in `backend`.
+This repository contains a Vite web app in `frontend` and a FastAPI backend in `backend`.
 
 ## Commands
 

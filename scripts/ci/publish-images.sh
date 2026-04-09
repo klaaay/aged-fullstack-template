@@ -26,7 +26,7 @@ API_IMAGE="$IMAGE_REGISTRY/$IMAGE_NAMESPACE/api:$IMAGE_TAG"
 cd "$ROOT_DIR"
 
 echo "$REGISTRY_PASSWORD" | docker login "$IMAGE_REGISTRY" -u "$REGISTRY_USERNAME" --password-stdin
-docker build -f apps/web/Dockerfile -t "$WEB_IMAGE" .
+docker build -f frontend/Dockerfile -t "$WEB_IMAGE" .
 docker build -f backend/Dockerfile -t "$API_IMAGE" ./backend
 docker push "$WEB_IMAGE"
 docker push "$API_IMAGE"

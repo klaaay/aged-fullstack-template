@@ -32,7 +32,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: apps/web/Dockerfile
+      dockerfile: frontend/Dockerfile
     environment:
       VITE_API_BASE_URL: /api
     depends_on:

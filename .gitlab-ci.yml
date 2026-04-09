@@ -27,7 +27,7 @@ web:
   artifacts:
     when: always
     paths:
-      - apps/web/dist
+      - frontend/dist
 
 backend:
   stage: test

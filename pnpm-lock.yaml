@@ -8,11 +8,11 @@ importers:
 
   .: {}
 
-  apps/web:
+  frontend:
     dependencies:
       '@aged-template/meta':
         specifier: workspace:*
-        version: link:../../libs/template-meta
+        version: link:../libs/template-meta
       react:
         specifier: ^19.2.0
         version: 19.2.4

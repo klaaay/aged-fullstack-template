@@ -33,16 +33,15 @@
 
 ```text
 .
-├─ apps/
-│  └─ web/                  # React + Vite 前端
-│     └─ src/
-│        ├─ components/
-│        ├─ contexts/
-│        ├─ hooks/
-│        ├─ layouts/
-│        ├─ pages/
-│        ├─ service/
-│        └─ styles/
+├─ frontend/                # React + Vite 前端
+│  └─ src/
+│     ├─ components/
+│     ├─ contexts/
+│     ├─ hooks/
+│     ├─ layouts/
+│     ├─ pages/
+│     ├─ service/
+│     └─ styles/
 ├─ backend/                 # FastAPI 后端
 │  └─ app/
 │     ├─ bootstrap/

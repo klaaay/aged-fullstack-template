@@ -1,6 +1,6 @@
 .git
 node_modules
-apps/web/dist
+frontend/dist
 backend/.venv
 backend/.pytest_cache
 backend/.ruff_cache
