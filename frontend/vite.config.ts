@@ -8,6 +8,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server: {
+      allowedHosts: ['web'],
       proxy: {
         '/api': {
           target: proxyTarget,
