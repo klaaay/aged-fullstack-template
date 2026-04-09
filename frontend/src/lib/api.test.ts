@@ -15,7 +15,7 @@ describe('getHealth', () => {
 
     const result = await getHealth()
 
-    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:3000/api/health')
+    expect(fetch).toHaveBeenCalledWith('/api/health')
     expect(result).toEqual({ status: 'ok' })
   })
 })

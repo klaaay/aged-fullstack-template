@@ -101,7 +101,11 @@ for (const file of targetFiles) {
       .replace(/^REDIS_URL=.*$/m, `REDIS_URL=redis://127.0.0.1:${redisPort}/0`)
       .replace(
         /^VITE_API_BASE_URL=.*$/m,
-        `VITE_API_BASE_URL=http://127.0.0.1:${apiPort}/api`
+        'VITE_API_BASE_URL=/api'
+      )
+      .replace(
+        /^VITE_API_PROXY_TARGET=.*$/m,
+        `VITE_API_PROXY_TARGET=http://127.0.0.1:${apiPort}`
       )
   }
 
@@ -116,9 +120,13 @@ for (const file of targetFiles) {
   }
 
   if (file === 'frontend/src/lib/env.ts') {
+    content = content.replace(/'\/api'/m, "'/api'")
+  }
+
+  if (file === 'frontend/vite.config.ts') {
     content = content.replace(
-      /http:\/\/127\.0\.0\.1:\d+\/api/m,
-      `http://127.0.0.1:${apiPort}/api`
+      /http:\/\/127\.0\.0\.1:\d+/m,
+      `http://127.0.0.1:${apiPort}`
     )
   }
 
