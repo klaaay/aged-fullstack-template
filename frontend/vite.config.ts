@@ -15,10 +15,6 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true
         }
       }
-    },
-    test: {
-      environment: 'jsdom',
-      globals: true
     }
   }
 })
