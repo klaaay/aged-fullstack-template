@@ -61,6 +61,7 @@ const targetFiles = [
   'frontend/Dockerfile',
   'frontend/src/App.test.tsx',
   'frontend/src/pages/ExamplePage.tsx',
+  'frontend/src/router.tsx',
   'frontend/vite.config.ts',
   'backend/pyproject.toml',
   'backend/uv.lock',

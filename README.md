@@ -15,6 +15,7 @@
 - 前端：React + Vite + Vitest
 - 后端：FastAPI + SQLAlchemy + Alembic + pytest
 - 基础设施：PostgreSQL、Redis、Docker Compose
+- 认证基础能力：注册、登录、登出、刷新会话、当前用户态、默认管理员入口
 - 共享层：`libs/template-meta`
 - 初始化脚本：`pnpm init:project`
 - CI/CD：
@@ -22,12 +23,11 @@
 
 当前模板刻意**不**内置这些内容：
 
-- 登录鉴权
-- 用户体系
 - 文件上传
 - 多租户
 - RAG / 向量检索
 - 复杂队列消费逻辑
+- 细颗粒度 RBAC / ABAC 权限模型
 
 ## 目录结构
 
@@ -87,9 +87,12 @@
 - `bootstrap`
 - `modules/example`
 - `modules/health`
+ - `modules/auth`
+ - `modules/users`
 - `platform/config`
 - `platform/db`
 - `platform/integrations`
+- `platform/security`
 - `scripts`
 - `shared/errors`
 - `shared/http`
@@ -181,6 +184,11 @@ pnpm dev
 - Web：`http://127.0.0.1:5173`
 - API：`http://127.0.0.1:3000`
 - 健康检查：`http://127.0.0.1:3000/api/health`
+
+默认管理员账号：
+
+- 邮箱：`admin@example.com`
+- 密码：`Admin123456!`
 
 ## 从模板派生新项目
 
@@ -277,6 +285,24 @@ pnpm docker:up
 - `web`
 
 如需覆盖运行态前端请求地址，请设置 `VITE_API_BUILD_BASE_URL`；开发态仍使用 `WEB_DEV_PORT`、`VITE_API_BASE_URL` 和 `VITE_API_PROXY_TARGET`。
+
+## 认证基础能力
+
+模板当前内置一套中性的认证骨架，适合作为业务项目起点：
+
+- 注册：`POST /api/auth/register`
+- 登录：`POST /api/auth/login`
+- 刷新会话：`POST /api/auth/refresh`
+- 登出：`POST /api/auth/logout`
+- 当前用户：`GET /api/auth/me`
+- 管理员入口示例：`GET /api/auth/admin-entry`
+
+默认授权模型只有两层：
+
+- `user`
+- `admin`
+
+这套能力只负责认证和最小管理员入口示例，不等于完整 RBAC。后续业务可以在此基础上继续扩展角色、权限点和资源级策略。
 
 ## CI/CD
 

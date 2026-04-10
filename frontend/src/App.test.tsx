@@ -1,6 +1,14 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 
+vi.mock('./service/modules/auth', () => ({
+  loginWithEmail: vi.fn(),
+  logoutAuthSession: vi.fn(),
+  refreshAuthSession: vi.fn().mockRejectedValue(new Error('unauthorized')),
+  registerWithEmail: vi.fn(),
+  getAdminEntry: vi.fn()
+}))
+
 vi.mock('./service', () => ({
   getExampleItems: vi.fn().mockResolvedValue([
     { id: 'hello', label: 'Hello template' },
@@ -15,12 +23,11 @@ vi.mock('./service', () => ({
 import App from './App'
 
 describe('App', () => {
-  it('通过模板元信息和 example 页面渲染模板结构', async () => {
+  it('未登录时渲染模板首页和认证入口', async () => {
     render(<App />)
 
-    expect(screen.getByText('Aged Fullstack Template')).toBeTruthy()
-    expect(screen.getByText('面向 aged-* 业务项目的全栈模板。')).toBeTruthy()
-    expect(await screen.findByText('Hello template')).toBeTruthy()
-    expect(screen.getByText('服务状态')).toBeTruthy()
+    expect(screen.getByRole('link', { name: 'Aged Fullstack Template' })).toBeTruthy()
+    expect((await screen.findAllByText('登录')).length).toBeGreaterThan(0)
+    expect((await screen.findAllByText('注册')).length).toBeGreaterThan(0)
   })
 })

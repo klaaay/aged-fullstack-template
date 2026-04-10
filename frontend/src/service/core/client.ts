@@ -6,7 +6,8 @@ const baseURL = import.meta.env.VITE_API_BASE_URL || '/api'
 
 export const apiClient = axios.create({
   baseURL,
-  timeout: 10000
+  timeout: 10000,
+  withCredentials: true
 })
 
 installInterceptors(apiClient)

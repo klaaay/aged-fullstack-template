@@ -30,7 +30,8 @@ describe('createApiClient', () => {
 
     expect(axios.create).toHaveBeenCalledWith({
       baseURL: '/api',
-      timeout: 10000
+      timeout: 10000,
+      withCredentials: true
     })
     expect(apiClient.interceptors.request.use).toHaveBeenCalledTimes(1)
     expect(apiClient.interceptors.response.use).toHaveBeenCalledTimes(1)

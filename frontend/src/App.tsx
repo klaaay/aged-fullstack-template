@@ -1,10 +1,10 @@
-import { AppLayout } from './layouts'
-import { ExamplePage } from './pages'
+import { AuthProvider } from './contexts/AuthContext'
+import { AppRouter } from './router'
 
 export default function App() {
   return (
-    <AppLayout>
-      <ExamplePage />
-    </AppLayout>
+    <AuthProvider>
+      <AppRouter />
+    </AuthProvider>
   )
 }

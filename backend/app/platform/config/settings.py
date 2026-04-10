@@ -19,6 +19,11 @@ class Settings(BaseSettings):
         "postgresql+psycopg://postgres:postgres@127.0.0.1:5432/aged_fullstack_template"
     )
     redis_url: str = "redis://127.0.0.1:6379/0"
+    jwt_secret_key: str = "aged-fullstack-template-dev-secret-key-2026"
+    access_token_expire_minutes: int = 15
+    refresh_token_expire_days: int = 7
+    admin_email: str = "admin@example.com"
+    admin_password: str = "Admin123456!"
 
 
 settings = Settings()
