@@ -152,7 +152,8 @@ pnpm dev
 ```bash
 node ./scripts/init-project.mjs \
   --name aged-order-center \
-  --port-web 5174 \
+  --port-web 80 \
+  --port-web-dev 5174 \
   --port-api 3001 \
   --port-postgres 55432 \
   --port-redis 56379
@@ -213,13 +214,14 @@ cp .env.example .env
 pnpm docker:up
 ```
 
-运行态会启动：
+运行态会使用前端打包产物启动，并由前端镜像内的 nginx 同时负责静态资源和 `/api` 反向代理。会启动：
 
 - `postgres`
 - `redis`
 - `api`
 - `web`
-- `nginx`
+
+如需覆盖运行态前端请求地址，请设置 `VITE_API_BUILD_BASE_URL`；开发态仍使用 `WEB_DEV_PORT`、`VITE_API_BASE_URL` 和 `VITE_API_PROXY_TARGET`。
 
 ## CI/CD
 

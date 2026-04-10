@@ -21,7 +21,8 @@ function titleCaseFromSlug(slug) {
 }
 
 const projectName = getArg('name')
-const webPort = getArg('port-web', '5173')
+const webPort = getArg('port-web', '80')
+const webDevPort = getArg('port-web-dev', '5173')
 const apiPort = getArg('port-api', '3000')
 const postgresPort = getArg('port-postgres', '5432')
 const redisPort = getArg('port-redis', '6379')
@@ -91,6 +92,7 @@ for (const file of targetFiles) {
   if (file === '.env.example') {
     content = content
       .replace(/^WEB_PORT=.*$/m, `WEB_PORT=${webPort}`)
+      .replace(/^WEB_DEV_PORT=.*$/m, `WEB_DEV_PORT=${webDevPort}`)
       .replace(/^API_PORT=.*$/m, `API_PORT=${apiPort}`)
       .replace(/^POSTGRES_PORT=.*$/m, `POSTGRES_PORT=${postgresPort}`)
       .replace(/^REDIS_PORT=.*$/m, `REDIS_PORT=${redisPort}`)
@@ -102,6 +104,10 @@ for (const file of targetFiles) {
       .replace(
         /^VITE_API_BASE_URL=.*$/m,
         'VITE_API_BASE_URL=/api'
+      )
+      .replace(
+        /^VITE_API_BUILD_BASE_URL=.*$/m,
+        'VITE_API_BUILD_BASE_URL=/api'
       )
       .replace(
         /^VITE_API_PROXY_TARGET=.*$/m,

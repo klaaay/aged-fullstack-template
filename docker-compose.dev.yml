@@ -17,11 +17,12 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
+      target: dev
     environment:
       VITE_API_BASE_URL: /api
       VITE_API_PROXY_TARGET: http://api:3000
-    ports:
-      - "${WEB_PORT:-5173}:5173"
+    ports: !override
+      - "${WEB_DEV_PORT:-5173}:5173"
     depends_on:
       - api
 

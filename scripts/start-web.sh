@@ -11,4 +11,4 @@ if [ -f "$ROOT_DIR/.env" ]; then
 fi
 
 cd "$ROOT_DIR"
-pnpm --filter @aged-template/web dev -- --host 127.0.0.1 --port "${WEB_PORT:-5173}"
+pnpm --filter @aged-template/web dev -- --host 127.0.0.1 --port "${WEB_DEV_PORT:-5173}"
