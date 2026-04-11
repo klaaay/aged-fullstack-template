@@ -13,7 +13,13 @@ function attachDefaultHeaders(config: InternalAxiosRequestConfig) {
 export function installInterceptors(client: AxiosInstance) {
   client.interceptors.request.use((config) => attachDefaultHeaders(config))
   client.interceptors.response.use(
-    (response) => response,
+    (response) => {
+      // 统一拆包 { data: <payload> } 信封，使 service 层直接拿到业务数据
+      if (response.data && typeof response.data === 'object' && 'data' in response.data) {
+        response.data = response.data.data
+      }
+      return response
+    },
     (error: unknown) => Promise.reject(normalizeApiError(error))
   )
 }

@@ -12,8 +12,10 @@ def test_health_returns_template_status() -> None:
 
     assert response.status_code == 200
     assert response.json() == {
-        "status": "ok",
-        "service": "aged-fullstack-template",
+        "data": {
+            "status": "ok",
+            "service": "aged-fullstack-template",
+        }
     }
 
 
