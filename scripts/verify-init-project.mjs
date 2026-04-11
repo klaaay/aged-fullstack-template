@@ -59,3 +59,12 @@ if (!envExample.includes('POSTGRES_PORT=55432')) {
 if (!envExample.includes('REDIS_PORT=56379')) {
   throw new Error('.env.example did not update REDIS_PORT')
 }
+
+const examplePage = fs.readFileSync(
+  path.join(copyDir, 'frontend/src/pages/ExamplePage.tsx'),
+  'utf8'
+)
+
+if (examplePage.includes('@aged-template/')) {
+  throw new Error('ExamplePage.tsx still contains @aged-template scope after init')
+}
