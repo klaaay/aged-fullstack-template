@@ -15,11 +15,11 @@ vi.mock('./service', () => ({
 import App from './App'
 
 describe('App', () => {
-  it('通过布局和 example 页面渲染模板结构', async () => {
+  it('通过模板元信息和 example 页面渲染模板结构', async () => {
     render(<App />)
 
-    expect(screen.getByText('aged-fullstack-template')).toBeTruthy()
-    expect(await screen.findByText('Example Page')).toBeTruthy()
+    expect(screen.getByText('Aged Fullstack Template')).toBeTruthy()
+    expect(screen.getByText('面向 aged-* 业务项目的全栈模板。')).toBeTruthy()
     expect(await screen.findByText('Hello template')).toBeTruthy()
     expect(screen.getByText('服务状态')).toBeTruthy()
   })

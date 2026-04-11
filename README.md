@@ -13,7 +13,7 @@
 当前模板内置这些能力：
 
 - 前端：React + Vite + Vitest
-- 后端：FastAPI + pytest
+- 后端：FastAPI + SQLAlchemy + Alembic + pytest
 - 基础设施：PostgreSQL、Redis、Docker Compose
 - 共享层：`libs/template-meta`
 - 初始化脚本：`pnpm init:project`
@@ -36,7 +36,6 @@
 ├─ frontend/                # React + Vite 前端
 │  └─ src/
 │     ├─ components/
-│     ├─ contexts/
 │     ├─ hooks/
 │     ├─ layouts/
 │     ├─ pages/
@@ -66,12 +65,16 @@
 
 这个模板会保留原项目的分层形式，但用中性的 example 文件表达职责。
 
+默认开发路径有两条主线：
+
+- 后端：坚持 `module-first`
+- 前端：请求统一收口到 `service`
+
 前端当前已经体现这些层级：
 
 - `components/app`
 - `components/example`
 - `components/ui`
-- `contexts`
 - `hooks`
 - `layouts`
 - `pages`
@@ -97,8 +100,59 @@
 - `platform` 负责运行时基础设施
 - `shared` 仅保留轻量公共代码
 - `modules/*` 负责业务模块实现
+- `service/core` 负责 axios client、拦截器和统一错误归一化
+- `service/modules` 负责具体模块 API
+- `libs/template-meta` 是模板静态元信息的单一来源
 
 这些 example 文件是可运行的，不是空壳；但它们只表达结构，不表达具体业务域。
+
+### 后端模块默认结构
+
+后端继续以 `modules/<name>` 作为第一组织单位。默认模块结构如下：
+
+```text
+modules/<name>/
+├─ router.py
+├─ service.py
+├─ schemas.py
+├─ models.py
+└─ repository.py   # optional
+```
+
+默认黄金路径是：
+
+`router.py -> service.py -> Session + ORM model`
+
+也就是说：
+
+- `router.py` 只负责 HTTP 层
+- `service.py` 是模块内默认业务入口
+- `schemas.py` 放请求/响应 DTO
+- `models.py` 放 SQLAlchemy ORM model
+
+`repository.py` 不是强制层。只有在查询逻辑复杂、多个 service 需要复用同一批查询，或需要把查询拼装和业务编排拆开时，才引入它。
+
+### 前端请求组织
+
+前端不再保留额外的 `lib` 请求入口。默认请求组织如下：
+
+```text
+service/
+├─ core/
+│  ├─ client.ts
+│  ├─ interceptors.ts
+│  └─ errors.ts
+└─ modules/
+   ├─ example.ts
+   └─ health.ts
+```
+
+其中：
+
+- `service/core/client.ts` 创建统一的 axios client
+- `service/core/interceptors.ts` 负责请求、响应拦截
+- `service/core/errors.ts` 负责统一错误结构
+- `service/modules/*` 只负责模块 API
 
 ## 环境要求
 
@@ -172,6 +226,7 @@ node ./scripts/init-project.mjs \
 - `.gitlab-ci.yml`
 - `scripts/ci/*` 里的默认镜像命名
 - `docker-compose*.yml`、`package.json`、共享元信息等模板标识
+- `backend/app/platform/config/settings.py` 中的默认项目配置
 
 ## 常用命令
 

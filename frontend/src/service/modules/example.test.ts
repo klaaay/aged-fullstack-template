@@ -1,14 +1,19 @@
 import { describe, expect, it, vi } from 'vitest'
-import { getExampleItems } from './example'
 
 vi.mock('../core/client', () => ({
-  getJson: vi.fn().mockResolvedValue({
-    items: [
-      { id: 'hello', label: 'Hello template' },
-      { id: 'customize', label: 'Customize me' }
-    ]
-  })
+  apiClient: {
+    get: vi.fn().mockResolvedValue({
+      data: {
+        items: [
+          { id: 'hello', label: 'Hello template' },
+          { id: 'customize', label: 'Customize me' }
+        ]
+      }
+    })
+  }
 }))
+
+import { getExampleItems } from './example'
 
 describe('getExampleItems', () => {
   it('从 example 模块返回列表数据', async () => {

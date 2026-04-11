@@ -1,11 +1,12 @@
-import { apiBaseUrl } from '../../lib/env'
+import axios from 'axios'
 
-export async function getJson<T>(path: string): Promise<T> {
-  const response = await fetch(`${apiBaseUrl}${path}`)
+import { installInterceptors } from './interceptors'
 
-  if (!response.ok) {
-    throw new Error(`request failed: ${response.status}`)
-  }
+const baseURL = import.meta.env.VITE_API_BASE_URL || '/api'
 
-  return response.json() as Promise<T>
-}
+export const apiClient = axios.create({
+  baseURL,
+  timeout: 10000
+})
+
+installInterceptors(apiClient)

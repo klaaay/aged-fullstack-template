@@ -1,4 +1,4 @@
-import { getJson } from '../core/client'
+import { apiClient } from '../core/client'
 
 type ExampleItem = {
   id: string
@@ -10,7 +10,6 @@ type ExampleResponse = {
 }
 
 export async function getExampleItems() {
-  const result = await getJson<ExampleResponse>('/example')
-
-  return result.items
+  const response = await apiClient.get<ExampleResponse>('/example')
+  return response.data.items
 }

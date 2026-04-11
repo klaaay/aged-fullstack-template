@@ -14,7 +14,13 @@ def install_error_handlers(app: FastAPI) -> None:
 
     @app.exception_handler(Exception)
     async def handle_unexpected_error(_: Request, exc: Exception) -> JSONResponse:
+        _ = exc
         return JSONResponse(
             status_code=500,
-            content={"error": {"type": "internal_error", "message": str(exc)}},
+            content={
+                "error": {
+                    "type": "internal_error",
+                    "message": "internal server error",
+                }
+            },
         )

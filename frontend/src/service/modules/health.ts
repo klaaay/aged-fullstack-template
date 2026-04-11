@@ -1,4 +1,4 @@
-import { getJson } from '../core/client'
+import { apiClient } from '../core/client'
 
 type HealthResponse = {
   status: string
@@ -6,5 +6,6 @@ type HealthResponse = {
 }
 
 export async function getHealthStatus() {
-  return getJson<HealthResponse>('/health')
+  const response = await apiClient.get<HealthResponse>('/health')
+  return response.data
 }

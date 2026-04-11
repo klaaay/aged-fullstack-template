@@ -1,3 +1,3 @@
-from app.modules.example.models import ExampleRecord
+from app.modules.example.models import ExampleItemModel
 
-__all__ = ["ExampleRecord"]
+__all__ = ["ExampleItemModel"]

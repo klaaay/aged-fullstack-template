@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
+
 import { getExampleItems, getHealthStatus } from '../service'
+import { normalizeApiError, type ApiError } from '../service/core/errors'
 
 type ExampleItem = {
   id: string
@@ -9,7 +11,7 @@ type ExampleItem = {
 type ExampleState = {
   items: ExampleItem[]
   healthStatus: string
-  errorMessage: string | null
+  error: ApiError | null
   isLoading: boolean
 }
 
@@ -17,7 +19,7 @@ export function useExampleState() {
   const [state, setState] = useState<ExampleState>({
     items: [],
     healthStatus: 'loading',
-    errorMessage: null,
+    error: null,
     isLoading: true
   })
 
@@ -32,14 +34,14 @@ export function useExampleState() {
         setState({
           items,
           healthStatus: health.status,
-          errorMessage: null,
+          error: null,
           isLoading: false
         })
       } catch (error) {
         setState({
           items: [],
           healthStatus: 'error',
-          errorMessage: error instanceof Error ? error.message : 'unknown error',
+          error: normalizeApiError(error),
           isLoading: false
         })
       }

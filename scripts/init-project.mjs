@@ -59,13 +59,11 @@ const targetFiles = [
   'frontend/package.json',
   'frontend/index.html',
   'frontend/Dockerfile',
-  'frontend/src/App.tsx',
   'frontend/src/App.test.tsx',
-  'frontend/src/lib/env.ts',
   'frontend/vite.config.ts',
   'backend/pyproject.toml',
   'backend/uv.lock',
-  'backend/app/core/config.py',
+  'backend/app/platform/config/settings.py',
   'backend/tests/contracts/test_health.py',
   'libs/template-meta/package.json',
   'libs/template-meta/src/index.ts',
@@ -73,7 +71,8 @@ const targetFiles = [
   'scripts/ci/build-images.sh',
   'scripts/ci/publish-images.sh',
   'scripts/start-web.sh',
-  'scripts/init-project.mjs'
+  'scripts/init-project.mjs',
+  'scripts/verify-init-project.mjs'
 ]
 
 for (const file of targetFiles) {
@@ -115,18 +114,15 @@ for (const file of targetFiles) {
       )
   }
 
-  if (file === 'backend/app/core/config.py') {
+  if (file === 'backend/app/platform/config/settings.py') {
     content = content
+      .replace(/project_name: str = "[^"]+"/m, `project_name: str = "${projectName}"`)
       .replace(/api_port: int = \d+/m, `api_port: int = ${apiPort}`)
       .replace(
         /database_url: str = \(\n\s+"postgresql\+psycopg:\/\/postgres:postgres@127\.0\.0\.1:\d+\/[a-z0-9_]+"\n\s+\)/m,
         `database_url: str = (\n        "postgresql+psycopg://postgres:postgres@127.0.0.1:${postgresPort}/${projectDbName}"\n    )`
       )
       .replace(/redis_url: str = "redis:\/\/127\.0\.0\.1:\d+\/0"/m, `redis_url: str = "redis://127.0.0.1:${redisPort}/0"`)
-  }
-
-  if (file === 'frontend/src/lib/env.ts') {
-    content = content.replace(/'\/api'/m, "'/api'")
   }
 
   if (file === 'frontend/vite.config.ts') {
