@@ -1,9 +1,22 @@
-FROM python:3.12-slim
+FROM python:3.12-slim AS builder
 
 WORKDIR /app
 
+RUN pip install uv
+
 COPY . .
 
-RUN pip install uv && uv sync
+RUN uv sync --no-dev
 
-CMD ["uv", "run", "python", "-c", "from app.main import run; run()"]
+FROM python:3.12-slim AS runtime
+
+WORKDIR /app
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+COPY --from=builder /app/.venv /app/.venv
+COPY --from=builder /app/app /app/app
+COPY --from=builder /app/alembic /app/alembic
+COPY --from=builder /app/alembic.ini /app/alembic.ini
+
+CMD ["python", "-c", "from app.main import run; run()"]

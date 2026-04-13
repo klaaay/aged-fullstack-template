@@ -27,3 +27,24 @@ def test_list_example_items_reads_from_database() -> None:
         {"id": "customize", "label": "Customize me"},
         {"id": "hello", "label": "Hello template"},
     ]
+
+
+def test_list_example_items_applies_page_and_limit() -> None:
+    engine = create_engine("sqlite+pysqlite:///:memory:", future=True)
+    testing_session_local = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+    Base.metadata.create_all(bind=engine)
+
+    with testing_session_local() as session:
+        session.add_all(
+            [
+                ExampleItemModel(id="a", label="first"),
+                ExampleItemModel(id="b", label="second"),
+                ExampleItemModel(id="c", label="third"),
+            ]
+        )
+        session.commit()
+
+    with testing_session_local() as session:
+        result = list_example_items(session, page=2, limit=1)
+
+    assert result == [{"id": "b", "label": "second"}]
