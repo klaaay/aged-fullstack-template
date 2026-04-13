@@ -72,3 +72,13 @@ def test_non_admin_cannot_access_admin_entry(client: TestClient) -> None:
 
     assert response.status_code == 403
     assert response.json()["error"]["type"] == "forbidden"
+
+
+def test_register_returns_validation_error_for_invalid_payload(client: TestClient) -> None:
+    response = client.post(
+        "/api/auth/register",
+        json={"email": "invalid-email", "password": "short"},
+    )
+
+    assert response.status_code == 400
+    assert response.json()["error"]["type"] == "validation_error"

@@ -24,3 +24,10 @@ def test_example_route_returns_database_items(client: TestClient, db_session: Se
             ]
         }
     }
+
+
+def test_example_route_rejects_invalid_pagination(client: TestClient) -> None:
+    response = client.get("/api/example?page=0")
+
+    assert response.status_code == 400
+    assert response.json()["error"]["type"] == "validation_error"

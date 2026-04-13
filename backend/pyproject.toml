@@ -13,6 +13,7 @@ dependencies = [
   "fakeredis>=2.31.0",
   "pyjwt>=2.10.0",
   "passlib>=1.7.4",
+  "argon2-cffi>=25.1.0",
   "email-validator>=2.2.0",
   "pytest>=8.3.0",
   "httpx>=0.28.0",
